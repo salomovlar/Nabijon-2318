@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katalog - Nabijanov Kitob Do'koni</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="snakes-container" id="snakesContainer"></div>
+
+    <nav class="navbar">
+        <div class="nav-brand">
+            <h1>Nabijanov</h1>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="index.html">Bosh Sahifa</a></li>
+            <li><a href="katalog.html" class="active">Katalog</a></li>
+            <li><a href="buyurtma.html">Buyurtma Berish</a></li>
+            <li><a href="biz-haqimizda.html">Biz Haqimizda</a></li>
+        </ul>
+    </nav>
+
+    <section class="page-header">
+        <h1 class="typewriter" id="pageTitle"></h1>
+        <p class="typewriter" id="pageSubtitle"></p>
+    </section>
+
+    <section class="catalog-section">
+        <div class="catalog-filters">
+            <button class="filter-btn active" onclick="filterBooks('all')">Barchasi</button>
+            <button class="filter-btn" onclick="filterBooks('available')">Mavjud</button>
+            <button class="filter-btn" onclick="filterBooks('sold')">Sotilgan</button>
+        </div>
+        <div class="books-grid" id="catalogGrid"></div>
+    </section>
+
+    <footer class="footer">
+        <p class="typewriter" id="footerText"></p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        let catalogBooks = [];
+
+        window.onload = async function() {
+            createSnakes();
+
+            try {
+                const response = await fetch('data.json');
+                catalogBooks = await response.json();
+            } catch (error) {
+                console.error('Kitoblarni yuklashda xatolik:', error);
+                return;
+            }
+
+            typeWriter(document.getElementById('pageTitle'), '📚 Kitoblar Katalogi', 100, () => {
+                typeWriter(document.getElementById('pageSubtitle'), 'Barcha kitoblarimiz bilan tanishing', 80, () => {
+                    displayCatalogBooks();
+                    typeWriter(document.getElementById('footerText'), '© 2026 Nabijanov. Barcha huquqlar himoyalangan.', 50);
+                });
+            });
+        };
+
+        function displayCatalogBooks(filter = 'all') {
+            const grid = document.getElementById('catalogGrid');
+            grid.innerHTML = '';
+            const filteredBooks = filter === 'all' ? catalogBooks :
+                                filter === 'available' ? catalogBooks.filter(b => !b.sold) :
+                                catalogBooks.filter(b => b.sold);
+
+            filteredBooks.forEach(book => {
+                const card = document.createElement('div');
+                card.className = 'book-card';
+                card.innerHTML = `
+                    <h4>${book.name}</h4>
+                    <p>Muallif: ${book.author}</p>
+                    <p>Narx: ${book.price.toLocaleString()} so'm</p>
+                    <p>Holati: ${book.sold ? '<span style="color:#cc0000">Sotilgan</span>' : '<span style="color:#006600">Mavjud</span>'}</p>
+                    ${!book.sold ? '<button class="order-btn" onclick="location.href=\'buyurtma.html\'">Buyurtma</button>' : ''}
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterBooks(type) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            displayCatalogBooks(type);
+        }
+    </script>
+</body>
+</html>

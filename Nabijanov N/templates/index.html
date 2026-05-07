@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nabijanov - Onlayn Kitob Do'koni</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="snakes-container" id="snakesContainer"></div>
+
+    <nav class="navbar">
+        <div class="nav-brand">
+            <h1>Nabijanov</h1>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="{% url 'index' %}" class="active">Bosh Sahifa</a></li>
+            <li><a href="{% url 'katalog' %}">Katalog</a></li>
+            <li><a href="{% url 'buyurtma' %}">Buyurtma Berish</a></li>
+            <li><a href="{% url 'biz_haqimizda' %}">Biz Haqimizda</a></li>
+        </ul>
+    </nav>
+
+    <header class="header">
+        <h1 class="typewriter" id="mainTitle"></h1>
+        <p class="typewriter" id="subtitle"></p>
+    </header>
+
+    <section class="stats-section">
+        <h2 class="typewriter" id="statsTitle"></h2>
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon">📚</div>
+                <h3>Jami Kitoblar</h3>
+                <div class="stat-number" id="totalBooks">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📖</div>
+                <h3>Qolgan Kitoblar</h3>
+                <div class="stat-number" id="availableBooks">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <h3>Sotilgan Kitoblar</h3>
+                <div class="stat-number" id="soldBooks">0</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="books-section">
+        <h2 class="typewriter" id="booksTitle"></h2>
+        <div class="books-grid" id="booksGrid"></div>
+    </section>
+
+    <footer class="footer">
+        <p class="typewriter" id="footerText"></p>
+    </footer>
+
+    <script>
+        const booksData = [
+            {% for book in books %}
+            {
+                name: "{{ book.name }}",
+                author: "{{ book.author }}",
+                price: {{ book.price }},
+                sold: {{ book.sold|yesno:"true,false" }}
+            }{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ];
+        const totalBooksCount = {{ total }};
+        const availableBooksCount = {{ available }};
+        const soldBooksCount = {{ sold }};
+    </script>
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biz Haqimizda - Nabijanov Kitob Do'koni</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="snakes-container" id="snakesContainer"></div>
+
+    <nav class="navbar">
+        <div class="nav-brand">
+            <h1>Nabijanov</h1>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="{% url 'index' %}">Bosh Sahifa</a></li>
+            <li><a href="{% url 'katalog' %}">Katalog</a></li>
+            <li><a href="{% url 'buyurtma' %}">Buyurtma Berish</a></li>
+            <li><a href="{% url 'biz_haqimizda' %}" class="active">Biz Haqimizda</a></li>
+        </ul>
+    </nav>
+
+    <section class="page-header">
+        <h1 class="typewriter" id="pageTitle"></h1>
+        <p class="typewriter" id="pageSubtitle"></p>
+    </section>
+
+    <section class="about-section">
+        <div class="about-content">
+            <div class="about-card">
+                <h2>🏢 Biz Haqimizda</h2>
+                <p class="typewriter" id="aboutText1"></p>
+            </div>
+
+            <div class="about-card">
+                <h2>🎯 Maqsadimiz</h2>
+                <p class="typewriter" id="aboutText2"></p>
+            </div>
+
+            <div class="about-card">
+                <h2>📞 Aloqa</h2>
+                <p class="typewriter" id="aboutText3"></p>
+            </div>
+
+            <div class="about-card">
+                <h2>⏰ Ish Vaqti</h2>
+                <p class="typewriter" id="aboutText4"></p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p class="typewriter" id="footerText"></p>
+    </footer>
+
+    <script src="{% static 'js/script.js' %}"></script>
+    <script>
+        window.onload = function() {
+            createSnakes();
+            typeWriter(document.getElementById('pageTitle'), 'ℹ️ Biz Haqimizda', 100, () => {
+                typeWriter(document.getElementById('pageSubtitle'), 'Nabijanov kitob do\'koni haqida ma\'lumot', 80, () => {
+                    typeWriter(document.getElementById('aboutText1'), 'Nabijanov onlayn kitob do\'koni 2026-yilda ochilgan bo\'lib, mijozlarga sifatli va zamonaviy kitoblarni taqdim etish maqsadida tashkil etilgan. Bizning missiyamiz - har bir insonning o\'qishga bo\'lgan ehtiyojini qondirish.', 30, () => {
+                        typeWriter(document.getElementById('aboutText2'), 'Bizning asosiy maqsadimiz - mijozlarga eng yaxshi kitoblarni, qulay narxlarda va tez yetkazib berish xizmati orqali taqdim etish. Biz sifat va ishonchlilikka amal qilamiz.', 30, () => {
+                            typeWriter(document.getElementById('aboutText3'), 'Telefon: +998 90 123 45 67\nEmail: info@nabijanov.uz\nManzil: Toshkent shahri, Chilonzor tumani', 30, () => {
+                                typeWriter(document.getElementById('aboutText4'), 'Dushanba - Juma: 09:00 - 18:00\nShanba: 09:00 - 14:00\nYakshanba: Dam olish kuni', 30, () => {
+                                    typeWriter(document.getElementById('footerText'), '© 2026 Nabijanov. Barcha huquqlar himoyalangan.', 50);
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        };
+    </script>
+</body>
+</html>

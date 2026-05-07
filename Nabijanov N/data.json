@@ -1,0 +1,12 @@
+[
+    { "name": "Dunyo Sirlari", "author": "A. Nabijanov", "price": 50000, "sold": true },
+    { "name": "Kelajak Sari", "author": "B. Karimov", "price": 45000, "sold": false },
+    { "name": "Ilm Yo'li", "author": "C. To'rayev", "price": 60000, "sold": false },
+    { "name": "O'zlikni Izlash", "author": "D. Nabijanov", "price": 55000, "sold": true },
+    { "name": "Zamonaviy Texnologiyalar", "author": "E. Rahimov", "price": 70000, "sold": false },
+    { "name": "Tarix Sahifalari", "author": "F. Umarov", "price": 40000, "sold": true },
+    { "name": "Falsafa Asoslari", "author": "G. Nabijanov", "price": 65000, "sold": false },
+    { "name": "She'riyat Dunyosi", "author": "H. Ismoilov", "price": 35000, "sold": false },
+    { "name": "Biznes Strategiyasi", "author": "I. Nabijanov", "price": 80000, "sold": true },
+    { "name": "Inson Psixologiyasi", "author": "J. Alimov", "price": 50000, "sold": false }
+]

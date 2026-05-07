@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buyurtma - Nabijanov Kitob Do'koni</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="snakes-container" id="snakesContainer"></div>
+
+    <nav class="navbar">
+        <div class="nav-brand">
+            <h1>Nabijanov</h1>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="{% url 'index' %}">Bosh Sahifa</a></li>
+            <li><a href="{% url 'katalog' %}">Katalog</a></li>
+            <li><a href="{% url 'buyurtma' %}" class="active">Buyurtma Berish</a></li>
+            <li><a href="{% url 'biz_haqimizda' %}">Biz Haqimizda</a></li>
+        </ul>
+    </nav>
+
+    <section class="page-header">
+        <h1 class="typewriter" id="pageTitle"></h1>
+        <p class="typewriter" id="pageSubtitle"></p>
+    </section>
+
+    <section class="order-section">
+        <form class="order-form" id="orderForm" onsubmit="submitOrder(event)">
+            <div class="form-group">
+                <label>Ismingiz:</label>
+                <input type="text" id="customerName" required>
+            </div>
+            <div class="form-group">
+                <label>Telefon:</label>
+                <input type="tel" id="customerPhone" required>
+            </div>
+            <div class="form-group">
+                <label>Kitob tanlang:</label>
+                <select id="bookSelect" required>
+                    <option value="">Kitobni tanlang</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Miqdori:</label>
+                <input type="number" id="quantity" min="1" value="1" required>
+            </div>
+            <div class="form-group">
+                <label>Manzil:</label>
+                <textarea id="address" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Buyurtma Berish</button>
+        </form>
+        <div id="orderMessage" class="order-message"></div>
+    </section>
+
+    <footer class="footer">
+        <p class="typewriter" id="footerText"></p>
+    </footer>
+
+    <script>
+        const orderBooks = [
+            {% for book in books %}
+            {% if not book.sold %}
+            {
+                name: "{{ book.name }}",
+                price: {{ book.price }}
+            }{% if not forloop.last %},{% endif %}
+            {% endif %}
+            {% endfor %}
+        ];
+    </script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <script>
+        window.onload = function() {
+            createSnakes();
+            typeWriter(document.getElementById('pageTitle'), '📦 Buyurtma Berish', 100, () => {
+                typeWriter(document.getElementById('pageSubtitle'), 'Kitobingizni shu yerda buyurtma qiling', 80, () => {
+                    loadBooksForOrder();
+                    typeWriter(document.getElementById('footerText'), '© 2026 Nabijanov. Barcha huquqlar himoyalangan.', 50);
+                });
+            });
+        };
+
+        function loadBooksForOrder() {
+            const select = document.getElementById('bookSelect');
+            orderBooks.forEach((book, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `${book.name} - ${book.price.toLocaleString()} so'm`;
+                select.appendChild(option);
+            });
+        }
+
+        function submitOrder(event) {
+            event.preventDefault();
+            const name = document.getElementById('customerName').value;
+            const bookIndex = document.getElementById('bookSelect').value;
+
+            if (bookIndex === '') {
+                alert('Iltimos, kitob tanlang!');
+                return;
+            }
+
+            const message = document.getElementById('orderMessage');
+            message.innerHTML = `
+                <div class="success-message">
+                    <h3>✅ Buyurtma qabul qilindi!</h3>
+                    <p>Hurmatli ${name}, buyurtmangiz qabul qilindi.</p>
+                    <p>Tez orada siz bilan bog'lanamiz.</p>
+                </div>
+            `;
+            message.style.display = 'block';
+            document.getElementById('orderForm').reset();
+        }
+    </script>
+</body>
+</html>
